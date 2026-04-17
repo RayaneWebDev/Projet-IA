@@ -1,14 +1,3 @@
-"""
-Othello IA — Version 3
-=======================
-Tournoi modifié :
-  • N parties TOTALES (20 ou 50), paires tirées aléatoirement à chaque partie
-  • Résultat de chaque partie affiché en temps réel dans un log scrollable
-  • Classement cumulé mis à jour après chaque partie
-  • Multiprocessing conservé pour la vitesse
-  • Vérification de la hiérarchie en fin de tournoi
-"""
-
 import tkinter as tk
 from tkinter import messagebox, ttk
 import random, time, threading, queue
