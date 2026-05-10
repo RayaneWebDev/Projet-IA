@@ -1,185 +1,269 @@
 # 🧠 Othello IA — Jeu, IA & Tournois en Temps Réel
 
-Application complète du jeu **Othello** avec :
+Application complète du jeu **Othello/Reversi** développée en Python avec :
 
-* Interface graphique interactive (Tkinter)
-* Plusieurs niveaux d’intelligence artificielle
-* Tournoi IA vs IA 
-
----
-
-## 🚀 Fonctionnalités
-
-### 🎮 Modes de jeu
-
-* 👥 **Humain vs Humain**
-* 🤖 **Humain vs IA**
-* 🏆 **IA vs IA (tournoi automatisé)**
-
-### 🤖 Niveaux d’IA
-
-* 🎲 **Aléatoire**
-* 😊 **Facile** (Minimax profondeur 2)
-* 😐 **Moyen** (Minimax + mobilité)
-* 😈 **Difficile** (Minimax avancé + heuristiques)
-
-### 📊 Tournoi IA
-
-* Matchs générés aléatoirement
-* Alternance des couleurs (équité)
-* Exécution **en parallèle** (multiprocessing)
-* Affichage **en temps réel** :
-
-  * Résultats des parties
-  * Classement dynamique
-  * Barre de progression
-
-### 🧪 Tests unitaires
-
-* Vérification des règles du jeu
-* Validation des IA
-* Test du système de **PASS (aucun coup valide)**
+- 🎮 Interface graphique moderne (Tkinter)
+- 🤖 Plusieurs intelligences artificielles
+- 🏆 Tournois IA vs IA
+- ⚡ Exécution parallèle avec multiprocessing
+- 🧵 Communication thread-safe avec threading + queue
+- 🧪 Système de tests unitaires
 
 ---
 
-## 🧱 Structure du projet
+# 🚀 Fonctionnalités
 
+## 🎮 Modes de jeu
+
+### 👥 Humain vs Humain
+Deux joueurs jouent sur le même plateau.
+
+### 🤖 Humain vs IA
+Affrontez plusieurs niveaux d’intelligence artificielle.
+
+### 🏆 Tournoi IA vs IA
+Les IA s’affrontent automatiquement dans un tournoi :
+
+- parties générées aléatoirement
+- alternance Noir/Blanc
+- exécution parallèle
+- classement dynamique en direct
+
+---
+
+# 🤖 Niveaux d’IA
+
+## 🎲 Aléatoire
+Choisit un coup valide au hasard.
+
+## 😊 Facile
+Minimax profondeur 2.
+
+## 😐 Moyen
+Minimax + heuristique de mobilité.
+
+## 😈 Difficile
+Minimax avancé :
+
+- poids positionnels
+- mobilité
+- contrôle des coins
+- profondeur adaptative
+
+---
+
+# 🧠 Algorithmes utilisés
+
+## Minimax avec Alpha-Beta Pruning
+
+Le moteur IA utilise :
+
+- recherche Minimax
+- optimisation Alpha-Beta
+- fonctions d’évaluation heuristiques
+
+---
+
+# 📊 Système de tournoi IA
+
+Le tournoi utilise :
+
+- `multiprocessing.Pool`
+- exécution parallèle des parties
+- génération aléatoire des matchs
+- équilibrage des couleurs
+
+## Affichage temps réel
+
+L’interface affiche :
+
+- résultats des parties
+- gagnants
+- scores
+- progression
+- classement cumulé
+
+---
+
+# ⚡ Concurrence & Parallélisme
+
+Le projet combine :
+
+## multiprocessing
+Pour jouer plusieurs parties simultanément.
+
+## threading
+Pour éviter de bloquer l’interface Tkinter.
+
+## queue.Queue
+Pour transmettre les résultats des workers vers l’UI.
+
+---
+
+# 🎨 Interface Graphique
+
+Interface développée avec Tkinter :
+
+- thème sombre moderne
+- plateau interactif
+- coups valides affichés
+- classement dynamique
+- barre de progression tournoi
+- résultats en direct
+
+---
+
+# 🧩 Architecture du projet
+
+```text
+project/
+│
+├── main.py
+│
+├── core/
+│   ├── constants.py
+│   └── game.py
+│
+├── ai/
+│   ├── evaluation.py
+│   ├── minimax.py
+│   └── players.py
+│
+├── tournament/
+│   ├── engine.py
+│   └── workers.py
+│
+├── ui/
+│   ├── gui.py
+│   └── cli.py
+│
+└── tests/
+    └── test_othello.py
 ```
-.
-├── core (logique du jeu)
-├── ai (minimax + heuristiques)
-├── ui (Tkinter)
-├── tournament (tournois entre ia + multiprocessing)
-├── tests (run_tests)
-└── main.py (lancement app ou CLI)
-```
 
 ---
 
-## ⚙️ Installation & Exécution
+# 🧠 Logique du jeu
 
-### ▶️ Lancer l’interface graphique
+## Règles implémentées
 
-```bash
-python main.py
-```
-
-
-## 🧠 Logique du jeu
-
-### Règles implémentées
-
-* Placement valide avec capture
-* Retournement des pions
-* Gestion du **PASS automatique**
-* Fin de partie si aucun joueur ne peut jouer
+- validation des coups
+- capture des pions
+- retournement automatique
+- gestion des passes
+- détection de fin de partie
 
 ---
 
-## 🤖 Intelligence Artificielle
+# 🔁 Gestion du PASS automatique
 
-### Algorithme utilisé
-
-* **Minimax avec Alpha-Beta pruning**
-
-### Fonctions d’évaluation
-
-* `evaluate_naive` → différence de score
-* `evaluate_mobility` → mobilité + coins
-* `evaluate_advanced` → poids positionnels + mobilité + score
-
----
-
-## ⚡ Parallélisme
-
-* Utilisation de `multiprocessing.Pool`
-* Exécution des parties en parallèle
-* Communication via `queue` vers l’interface
-
----
-
-## 🎨 Interface graphique
-
-* Tkinter moderne (design custom)
-* Plateau interactif
-* Indication des coups valides
-* Animation des tours IA
-* Tableau de classement dynamique
-
----
-
-## 🔁 Gestion du PASS (important)
-
-Quand un joueur n’a **aucun coup valide** :
+Lorsqu’un joueur n’a aucun coup valide :
 
 ```python
 if not self.game.valid_moves():
     self.game.current_player *= -1
 ```
 
-✔️ Si les deux joueurs sont bloqués → fin de partie
+Si les deux joueurs sont bloqués :
+
+➡️ la partie se termine automatiquement.
 
 ---
 
-## 🧪 Tests unitaires
+# 🧪 Tests unitaires
 
-Lancer depuis le menu ou automatiquement :
+Le projet contient un système de tests permettant de vérifier :
 
-### Tests couverts :
-
-* Initialisation du plateau
-* Coups valides
-* Retournement
-* IA
-* Copie du jeu
-* ✅ **PASS automatique**
+- initialisation du plateau
+- coups valides
+- retournement des pions
+- copie du jeu
+- détection fin de partie
+- système de PASS
 
 ---
 
-## 📈 Exemple de résultat tournoi
+# ⚙️ Installation
 
+## Prérequis
+
+- Python 3.10+
+- Tkinter
+
+---
+
+# ▶️ Exécution
+
+## Interface graphique
+
+```bash
+python main.py
 ```
+
+## Mode CLI
+
+```bash
+python main.py cli
+```
+
+## Tournoi CLI
+
+```bash
+python main.py tournament
+```
+
+---
+
+# 📈 Exemple de tournoi
+
+```text
 #    Noir         Blanc        Score   Gagnant
+
 1    Facile       Moyen        34-30   Facile
 2    Difficile    Facile       45-19   Difficile
+3    Moyen        Aléatoire    40-24   Moyen
 ...
 ```
 
 ---
 
-## 🛠️ Technologies utilisées
+# 🛠️ Technologies utilisées
 
-* Python 3
-* Tkinter
-* multiprocessing
-* threading
-* queue
-
----
-
-## 💡 Améliorations possibles
-
-* Ajouter une IA avec **Monte Carlo Tree Search**
-* Sauvegarde des parties
-* Mode réseau (multijoueur)
-* Replay des parties
-* Graphiques statistiques
+- Python 3
+- Tkinter
+- multiprocessing
+- threading
+- queue
+- Minimax
+- Alpha-Beta pruning
 
 ---
 
-## 👨‍💻 Auteur
+# 💡 Améliorations possibles
 
-Projet développé dans le cadre d’un apprentissage avancé :
-
-* Algorithmique (Minimax)
-* IA de jeu
-* Concurrence (threads + multiprocessing)
-* UI Desktop
+- IA Monte Carlo Tree Search
+- sauvegarde/replay des parties
+- statistiques avancées
+- mode réseau multijoueur
+- animations plus avancées
+- IA par apprentissage
 
 ---
 
-## 📜 Licence
+# 👨‍💻 Objectifs pédagogiques
+
+Projet développé pour pratiquer :
+
+- algorithmique
+- intelligence artificielle
+- théorie des jeux
+- concurrence
+- multiprocessing
+- architecture logicielle Python
+- développement desktop
+
+---
+
+# 📜 Licence
 
 Projet libre d’utilisation à des fins éducatives.
-
----
